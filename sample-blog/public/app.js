@@ -41,13 +41,13 @@ app.view = function(ctrl) {
   ])
 };
 
-var add = {};
+var addModule = {};
 
-add.controller = function() {
+addModule.controller = function() {
 
 };
 
-add.view = function(ctrl) {
+addModule.view = function(ctrl) {
   return m('body', [
             m('a[href=""]>', {config: m.route}, 'All Posts'),
             m('br'),
@@ -62,7 +62,7 @@ add.view = function(ctrl) {
 
 m.route(document, '/', {
     '' : app,
-    'posts/add': add,
+    'posts/add': addModule,
     //'posts/new': newPost,
     //'posts/:id': singlePost
 })
