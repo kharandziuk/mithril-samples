@@ -1,0 +1,54 @@
+{
+  "name": "mithril",
+  "description": "A Javascript Framework for building brilliant applications",
+  "keywords": [
+    "mvc",
+    "framework"
+  ],
+  "version": "0.1.22",
+  "author": {
+    "name": "Leo Horie",
+    "email": "leohorie@hotmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lhorie/mithril"
+  },
+  "main": "mithril.js",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "files": [
+    "mithril.min.js",
+    "mithril.min.map",
+    "mithril.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/lhorie/mithril/issues"
+  },
+  "homepage": "https://github.com/lhorie/mithril",
+  "_id": "mithril@0.1.22",
+  "dist": {
+    "shasum": "b02b8172f5363469432ac5fd60d20ca55b69af28",
+    "tarball": "http://registry.npmjs.org/mithril/-/mithril-0.1.22.tgz"
+  },
+  "_from": "mithril@*",
+  "_npmVersion": "1.4.3",
+  "_npmUser": {
+    "name": "lhorie",
+    "email": "leohorie@hotmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "lhorie",
+      "email": "leohorie@hotmail.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "b02b8172f5363469432ac5fd60d20ca55b69af28",
+  "_resolved": "https://registry.npmjs.org/mithril/-/mithril-0.1.22.tgz",
+  "readme": "ERROR: No README data found!"
+}
