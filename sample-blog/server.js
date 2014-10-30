@@ -14,12 +14,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/posts', function (req, res) {
     posts.find(function (err, results) {
-        res.json(results);
+      // for real connection simulation
+        setTimeout(function() {
+          res.json(results);
+        }, 1000);
     });
 });
 
 app.get('/posts/:id', function (req, res) {
-    posts.find(function (err, results) {
+    posts.find({id: parseInt(req.params.id, 10) }, function (err, results) {
         res.json(results);
     });
 });
