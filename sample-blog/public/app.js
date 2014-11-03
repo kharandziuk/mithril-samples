@@ -8,9 +8,20 @@ app.PostList = function(list) {
 };
 
 app.vm = {};
+
+app.Post = function(data) {
+  var data = data || {};
+  this.id = m.prop(data.id);
+  this.title = m.prop(data.title);
+  this.content = m.prop(data.content);
+};
+
 app.vm.init = function() {
-  this.posts = new app.PostList();
-  this.posts = m.request({method: 'GET', url: '/posts'});
+  var self = this;
+  self.posts = new app.PostList();
+  m.request({method: 'GET', url: '/posts', background: true, type: app.Post})
+    .then(self.posts)
+    .then(m.redraw);
 };
 
 app.controller = function() {
@@ -23,7 +34,7 @@ app.view = function(ctrl) {
       m('ul',
         app.vm.posts().map(function(el){
           return m('li', [
-            m('a[href="/posts/'+el.id+'"]', {config: m.route}, el.title)
+            m('a[href="/posts/'+el.id()+'"]', {config: m.route}, JSON.stringify(el))
           ]);
         })
       ),
@@ -77,15 +88,59 @@ add.view = function(ctrl) {
 
 var details = {};
 
+details.vm = {};
+details.vm.init = function(postId) {
+  var self = this;
+  self.comment = {
+    postId: postId,
+    name: '',
+    body: ''
+  };
+  self.post = new app.Post();
+  m.request({method: 'GET', url: '/posts/'+postId, type: app.Post}).then(function(data) {
+    data = data[0];
+    self.post = data;
+  });
+  self.comments = m.request({method: 'GET', url: '/posts/'+postId+'/comments'});
+
+  self.add = function(e) {
+    e.preventDefault();
+    if (self.comment.body) {
+      var newComment = self.comment;
+      // TODO: add request error handler (how to?)
+      m.request({method: 'POST', url: '/posts/'+postId+'/comments', data: newComment}).then(function() {
+        var comments = self.comments();
+        comments.push(newComment);
+        self.comments(comments);
+      });
+    }
+  }.bind(self);
+};
+
 details.controller = function() {
-  this.post = {};
-  this.post.id = m.route.param('postId');
+  var postId = +m.route.param('postId');
+  this.postId = postId;
+  details.vm.init(postId);
 };
 
 details.view = function(ctrl) {
   return m('body', [
     m('a[href="/"]', {config: m.route}, 'All posts'),
-    m('h1', 'post id: '+ctrl.post.id)
+    m('h1', details.vm.post.title()),
+    m('p', details.vm.post.content()),
+    m('form', {
+      onsubmit: details.vm.add,
+      onchange: formBinds(details.vm.comment)
+    }, [
+      m('input[type=text][name=name][placeholder="your name"][required]'),
+      m('br'),
+      m('textarea[name=body][placeholder="comment body"][required]'),
+      m('br'),
+      m('input[type=submit][value=Post]')
+    ]),
+    m('ul', details.vm.comments().map(function(comment) {
+      return m('li', comment.name+': '+comment.body);
+    }))
   ]);
 };
 
